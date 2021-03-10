@@ -34,5 +34,4 @@ public class SettingsFragment extends Fragment {
         mViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
         // TODO: Use the ViewModel
     }
-
 }
