@@ -6,16 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".SecondActivity">
 
+    <EditText
+        android:id="@+id/search_edit_frame"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/search_edit_frame"
         android:text="Back MainActivity" />
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignTop="@+id/button" />
+        android:layout_below="@id/button" />
 
 </RelativeLayout>

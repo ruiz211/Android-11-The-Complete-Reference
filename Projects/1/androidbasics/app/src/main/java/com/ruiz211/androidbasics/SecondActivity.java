@@ -7,14 +7,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,7 @@ import java.util.List;
 public class SecondActivity extends AppCompatActivity {
 
     private ListView listView;
+    private EditText search_edit_frame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,10 @@ public class SecondActivity extends AppCompatActivity {
         });
 
         listView = findViewById(R.id.list);
+        search_edit_frame = findViewById(R.id.search_edit_frame);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Toast.makeText(this, "Press", Toast.LENGTH_SHORT).show();
+        });
 
         List<Person> personList = new ArrayList<>();
         personList.add(new Person("John", "Johnson", 37));
@@ -59,8 +68,23 @@ public class SecondActivity extends AppCompatActivity {
         PersonAdapter adapter = new PersonAdapter(this, R.layout.person_list_layout, personList);
         listView.setAdapter(adapter);
 
-    }
+        search_edit_frame.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
 }
 
 class Person {
@@ -124,10 +148,6 @@ class PersonAdapter extends ArrayAdapter<Person> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        String name = getItem(position).getName();
-        String lastname = getItem(position).getLastname();
-        int age = getItem(position).getAge();
-
         LayoutInflater inflater = LayoutInflater.from(getContext());
         convertView = inflater.inflate(getResource(), parent, false);
 
@@ -135,9 +155,9 @@ class PersonAdapter extends ArrayAdapter<Person> {
         TextView text_lastname = convertView.findViewById(R.id.text_lastname);
         TextView text_age = convertView.findViewById(R.id.text_age);
 
-        text_name.setText(name);
-        text_lastname.setText(lastname);
-        text_age.setText(String.valueOf(age));
+        text_name.setText(getItem(position).getName());
+        text_lastname.setText(getItem(position).getLastname());
+        text_age.setText(String.valueOf(getItem(position).getAge()));
 
         return convertView;
     }
